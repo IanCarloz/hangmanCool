@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hangman Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <body style="background-color: deepskyblue;">
+    <script
+     src="https://code.jquery.com/jquery-3.1.1.js"
+     integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+     crossorigin="anonymous"></script>
+     <style media="screen">
+       button{
+         color: white;
+         font-size: 15px;
+         background-color: black;
+       }
+       #espacios_palabra{
+         font-size: 45px;
+       }
+       #errores{
+         font-weight: bold;
+         font-style: oblique;
+         font-size: 25px;
+         font-style: italic;
+         color: red;
+       }
+     </style>
+  </head>
+  <body>
+
+    <h1> Hangman "multijugador"</h1>
+
+    <input type ="password" placeholder ="Aquí va la palabra" id ="palabra" class="one-half column">
+    <button onclick="guardar_palabra()">Usar esta palabra</button>
+    <br/>
+    <input type ="text" placeholder ="Escribe una letra" id  ="letra" maxlength="1" minlength="1" class="one-half column">
+    <button onclick="jugar()">Play!</button>
+    <div id="longitud_palabras" class="one-half column"></div>
+    <div id="espacios_palabra" class="one-half column"></div>
+    <div id="errores" class="one-half column"></div>
+
+    <script>
+    var intentos   = 7;
+
+    function guardar_palabra(){
+      var palabra  = $("#palabra").val();
+      var longitud = palabra.length;
+      var contenedor = $("#espacios_palabra");
+      contenedor.html("");
+      for(var i=0; i < palabra.length; i++){
+        contenedor.append("<span class='" + palabra[i] + "'> _ </span>");
+      }
+
+      console.log(palabra);
+      $("#longitud_palabras").html("La palabra tiene " + longitud + " letras.");
+
+    }
+
+    function jugar(){
+      var palabra    = $("#palabra").val();
+      var letra      = $("#letra").val();
+
+      if ( intentos > 0 ) {
+        var index = palabra.indexOf(letra);
+        if ( index != -1 ) {
+          reemplazar(letra);
+        } else {
+          intentos--;
+          // append agrega y html escribe
+          $("#errores").html("Te quedan: " + intentos + " intentos.");
+          console.log(intentos);
+        }
+
+      } else {
+        $("#errores").html("Ya no puedes jugar, perdiste;");
+
+      }
+
+    }
+
+    function reemplazar(letra){
+      $("." + letra).html(letra);
+    }
+
+    </script>
+
+  </body>
+</html>
